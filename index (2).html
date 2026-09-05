@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Ajar Interaktif: Transformasi Geometri - LBB Kelas Pintar Orion</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Equations (Core + Auto-Render) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        },
+                        accent: {
+                            cyan: '#0891b2',
+                            emerald: '#059669',
+                            amber: '#d97706',
+                            rose: '#e11d48',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        
+        /* Math kaTeX styling tweaks for max readability */
+        .katex-display {
+            margin: 0.75em 0 !important;
+            padding: 0.5em;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        .katex {
+            font-size: 1.1em !important;
+        }
+
+        /* Active Navigation Buttons */
+        .tab-btn.active {
+            background-color: #4f46e5;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+        }
+        
+        .materi-subtab.active {
+            background-color: #4f46e5;
+            color: #ffffff !important;
+            border-color: #4f46e5;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+        }
+
+        /* Card Hover Effects */
+        .card-hover {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- HEADER NAVBAR -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Branding Logo & Info -->
+                <div class="flex items-center space-x-3.5">
+                    <div class="w-12 h-12 bg-gradient-to-tr from-brand-700 via-brand-600 to-accent-cyan rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-md shadow-brand-500/20">
+                        <i class="fa-solid fa-shapes"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h1 class="text-xl font-extrabold text-slate-900 tracking-tight">Transformasi Geometri</h1>
+                            <span class="bg-brand-100 text-brand-800 text-xs font-bold px-2.5 py-0.5 rounded-md border border-brand-200">SMA Kelas XI</span>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-500 mt-0.5">
+                            Oleh: <span class="text-brand-700 font-bold">Tim Penyusun LBB Kelas Pintar Orion</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Desktop) -->
+                <nav class="hidden md:flex space-x-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+                    <button onclick="switchTab('pendahuluan')" id="tab-pendahuluan" class="tab-btn active px-4 py-2 text-sm font-bold rounded-xl transition-all flex items-center space-x-2 text-slate-700">
+                        <i class="fa-solid fa-compass"></i> <span>Pendahuluan</span>
+                    </button>
+                    <button onclick="switchTab('materi')" id="tab-materi" class="tab-btn px-4 py-2 text-sm font-bold rounded-xl transition-all flex items-center space-x-2 text-slate-700">
+                        <i class="fa-solid fa-book-open"></i> <span>Materi</span>
+                    </button>
+                    <button onclick="switchTab('lab')" id="tab-lab" class="tab-btn px-4 py-2 text-sm font-bold rounded-xl transition-all flex items-center space-x-2 text-slate-700">
+                        <i class="fa-solid fa-flask"></i> <span>Lab Virtual</span>
+                    </button>
+                    <button onclick="switchTab('lkpd')" id="tab-lkpd" class="tab-btn px-4 py-2 text-sm font-bold rounded-xl transition-all flex items-center space-x-2 text-slate-700">
+                        <i class="fa-solid fa-pen-to-square"></i> <span>LKPD</span>
+                    </button>
+                    <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn px-4 py-2 text-sm font-bold rounded-xl transition-all flex items-center space-x-2 text-slate-700">
+                        <i class="fa-solid fa-trophy"></i> <span>Kuis</span>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-700 hover:text-brand-600 p-2.5 rounded-xl bg-slate-100 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-5 space-y-2">
+            <button onclick="switchTab('pendahuluan'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-slate-800 hover:bg-brand-50 flex items-center space-x-3">
+                <i class="fa-solid fa-compass w-5 text-brand-600 text-lg"></i> <span>1. Pendahuluan</span>
+            </button>
+            <button onclick="switchTab('materi'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-slate-800 hover:bg-brand-50 flex items-center space-x-3">
+                <i class="fa-solid fa-book-open w-5 text-brand-600 text-lg"></i> <span>2. Materi Pembelajaran</span>
+            </button>
+            <button onclick="switchTab('lab'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-slate-800 hover:bg-brand-50 flex items-center space-x-3">
+                <i class="fa-solid fa-flask w-5 text-brand-600 text-lg"></i> <span>3. Laboratorium Virtual</span>
+            </button>
+            <button onclick="switchTab('lkpd'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-slate-800 hover:bg-brand-50 flex items-center space-x-3">
+                <i class="fa-solid fa-pen-to-square w-5 text-brand-600 text-lg"></i> <span>4. LKPD Interaktif</span>
+            </button>
+            <button onclick="switchTab('quiz'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-slate-800 hover:bg-brand-50 flex items-center space-x-3">
+                <i class="fa-solid fa-trophy w-5 text-brand-600 text-lg"></i> <span>5. Kuis Evaluasi</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ==================== TAB 1: PENDAHULUAN ==================== -->
+        <section id="section-pendahuluan" class="space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-800 via-brand-700 to-accent-cyan text-white p-8 sm:p-12 shadow-xl border border-brand-600">
+                <div class="absolute -right-12 -bottom-12 opacity-10 pointer-events-none">
+                    <i class="fa-solid fa-vector-square text-[300px]"></i>
+                </div>
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <div class="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide">
+                        <i class="fa-solid fa-star text-amber-300"></i>
+                        <span>Modul Pembelajaran Interaktif Matematika SMA</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                        Eksplorasi Pembelajaran <br/><span class="text-amber-300">Transformasi Geometri</span>
+                    </h2>
+                    <p class="text-slate-100 text-base sm:text-lg font-medium leading-relaxed">
+                        Pahami konsep pergeseran (translasi), pencerminan (refleksi), perputaran (rotasi), dan perkalian skala (dilatasi) secara intuitif melalui grafik dinamis, rumus matriks yang jelas, serta laboratorium simulasi virtual.
+                    </p>
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <button onclick="switchTab('materi')" class="bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold px-6 py-3.5 rounded-2xl shadow-lg transition-all flex items-center space-x-2 transform hover:-translate-y-0.5">
+                            <span>Mulai Belajar Materi</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('lab')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 font-bold px-6 py-3.5 rounded-2xl transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-flask text-amber-300"></i> <span>Uji Simulasi Lab</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Objectives & Applications Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1: CP -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm card-hover">
+                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-2xl flex items-center justify-center text-xl font-black mb-4">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Capaian Pembelajaran</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed font-medium">
+                        Peserta didik mampu menggeneralisasi sifat-sifat transformasi geometri (translasi, refleksi, rotasi, dan dilatasi) menggunakan pendekatan koordinat Kartesius dan operasi matriks.
+                    </p>
+                </div>
+
+                <!-- Card 2: TP -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm card-hover">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-xl font-black mb-4">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Tujuan Pembelajaran</h3>
+                    <ul class="text-sm text-slate-600 space-y-2 font-medium list-disc list-inside">
+                        <li>Menentukan koordinat pergeseran (Translasi).</li>
+                        <li>Menganalisis hasil pencerminan (Refleksi).</li>
+                        <li>Menghitung hasil perputaran sudut (Rotasi).</li>
+                        <li>Menghitung hasil perkalian skala (Dilatasi).</li>
+                    </ul>
+                </div>
+
+                <!-- Card 3: Real World -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm card-hover">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center text-xl font-black mb-4">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Penerapan Nyata</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed font-medium">
+                        Konsep transformasi dipakai secara luas pada desain grafis 3D, pembuatan animasi video game, pemrosesan gambar digital, navigasi radar, robotika, dan arsitektur bangunan modern.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Concept Map & Instructions -->
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+                <h3 class="text-xl font-bold text-slate-900 flex items-center space-x-2.5">
+                    <i class="fa-solid fa-sitemap text-brand-600"></i>
+                    <span>Peta Konsep Transformasi Geometri</span>
+                </h3>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                    <div class="p-4 rounded-2xl bg-indigo-50 border border-indigo-200">
+                        <div class="w-10 h-10 bg-brand-600 text-white rounded-xl mx-auto flex items-center justify-center mb-2 font-bold text-base shadow">1</div>
+                        <h4 class="font-bold text-slate-900 text-base">Translasi</h4>
+                        <p class="text-xs text-brand-700 font-semibold mt-1">Pergeseran Posisi</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+                        <div class="w-10 h-10 bg-emerald-600 text-white rounded-xl mx-auto flex items-center justify-center mb-2 font-bold text-base shadow">2</div>
+                        <h4 class="font-bold text-slate-900 text-base">Refleksi</h4>
+                        <p class="text-xs text-emerald-700 font-semibold mt-1">Pencerminan Cermin</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200">
+                        <div class="w-10 h-10 bg-amber-600 text-white rounded-xl mx-auto flex items-center justify-center mb-2 font-bold text-base shadow">3</div>
+                        <h4 class="font-bold text-slate-900 text-base">Rotasi</h4>
+                        <p class="text-xs text-amber-700 font-semibold mt-1">Perputaran Sudut</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
+                        <div class="w-10 h-10 bg-rose-600 text-white rounded-xl mx-auto flex items-center justify-center mb-2 font-bold text-base shadow">4</div>
+                        <h4 class="font-bold text-slate-900 text-base">Dilatasi</h4>
+                        <p class="text-xs text-rose-700 font-semibold mt-1">Perkalian Skala</p>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-100 rounded-2xl border border-slate-200 space-y-2">
+                    <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-info text-brand-600"></i>
+                        <span>Petunjuk Penggunaan Aplikasi:</span>
+                    </h4>
+                    <ol class="text-xs sm:text-sm text-slate-700 space-y-1.5 list-decimal list-inside font-medium">
+                        <li>Pilih menu <strong class="text-slate-900">Materi</strong> untuk mempelajari definisi, rumus matematika, dan contoh soal beserta solusinya.</li>
+                        <li>Gunakan menu <strong class="text-slate-900">Lab Virtual</strong> untuk memanipulasi koordinat secara simulasi grafis dinamis.</li>
+                        <li>Kerjakan latihan pada menu <strong class="text-slate-900">LKPD</strong> untuk menguji pemahaman konsep secara terstruktur.</li>
+                        <li>Evaluasi tingkat pemahaman akhir Anda pada menu <strong class="text-slate-900">Kuis</strong>.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: MATERI ==================== -->
+        <section id="section-materi" class="hidden space-y-6">
+            <!-- Header sub-navigation -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900">Materi Pembelajaran Utama</h2>
+                    <p class="text-sm font-medium text-slate-500">Pilih sub-topik transformasi di bawah ini untuk mempelajari teori dan contoh soalnya.</p>
+                </div>
+                <!-- Subtabs Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="switchMateriSubtab('translasi')" id="subtab-translasi" class="materi-subtab active px-4 py-2 rounded-xl border border-slate-300 text-sm font-bold transition-all">
+                        Translasi
+                    </button>
+                    <button onclick="switchMateriSubtab('refleksi')" id="subtab-refleksi" class="materi-subtab px-4 py-2 rounded-xl border border-slate-300 text-sm font-bold transition-all text-slate-700">
+                        Refleksi
+                    </button>
+                    <button onclick="switchMateriSubtab('rotasi')" id="subtab-rotasi" class="materi-subtab px-4 py-2 rounded-xl border border-slate-300 text-sm font-bold transition-all text-slate-700">
+                        Rotasi
+                    </button>
+                    <button onclick="switchMateriSubtab('dilatasi')" id="subtab-dilatasi" class="materi-subtab px-4 py-2 rounded-xl border border-slate-300 text-sm font-bold transition-all text-slate-700">
+                        Dilatasi
+                    </button>
+                </div>
+            </div>
+
+            <!-- Subtab Content 1: Translasi -->
+            <div id="materi-translasi" class="materi-content space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 text-brand-600">
+                        <i class="fa-solid fa-arrows-up-down-left-right text-2xl"></i>
+                        <h3 class="text-xl font-extrabold text-slate-900">1. Translasi (Pergeseran)</h3>
+                    </div>
+                    <p class="text-slate-700 text-base leading-relaxed font-medium">
+                        <strong>Translasi</strong> adalah memindahkan atau menggeser setiap titik pada bidang datar dengan jarak dan arah tertentu. Translasi tidak mengubah bentuk maupun ukuran objek (bersifat Isometri).
+                    </p>
+
+                    <!-- Formula Box -->
+                    <div class="bg-indigo-50 border-l-4 border-brand-600 p-6 rounded-r-2xl space-y-3">
+                        <h4 class="font-bold text-brand-900 text-base">Persamaan Matematika Translasi</h4>
+                        <p class="text-sm font-medium text-slate-800">
+                            Jika titik $A(x, y)$ ditranslasikan oleh vektor pergeseran $T = \begin{pmatrix} a \\ b \end{pmatrix}$, maka koordinat bayangannya $A'(x', y')$ dapat dihitung dengan:
+                        </p>
+                        <div class="text-center py-2 text-lg font-bold text-brand-900">
+                            $$ \begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} x \\ y \end{pmatrix} + \begin{pmatrix} a \\ b \end{pmatrix} = \begin{pmatrix} x + a \\ y + b \end{pmatrix} $$
+                        </div>
+                        <p class="text-xs font-semibold text-slate-600">
+                            Keterangan: $a$ adalah komponen pergeseran horizontal (kanan $+$, kiri $-$) dan $b$ adalah pergeseran vertikal (atas $+$, bawah $-$).
+                        </p>
+                    </div>
+
+                    <!-- Example Problem 1 -->
+                    <div class="border border-slate-200 rounded-2xl p-5 space-y-3 bg-slate-50">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full">Contoh Soal 1</span>
+                        </div>
+                        <p class="text-sm font-bold text-slate-900">
+                            Tentukan koordinat bayangan titik $P(4, -3)$ jika ditranslasikan oleh $T = \begin{pmatrix} 5 \\ -2 \end{pmatrix}$!
+                        </p>
+                        <button onclick="toggleSolution('sol-1')" class="text-xs font-bold text-brand-600 hover:text-brand-800 flex items-center space-x-1">
+                            <span>Buka Pembahasan Soal</span> <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                        </button>
+                        <div id="sol-1" class="hidden pt-3 border-t border-slate-200 text-sm text-slate-800 space-y-2 font-medium bg-white p-4 rounded-xl border">
+                            <p><strong>Langkah Penyelesaian:</strong></p>
+                            <p>$x' = x + a = 4 + 5 = 9$</p>
+                            <p>$y' = y + b = -3 + (-2) = -5$</p>
+                            <p class="font-bold text-emerald-700 pt-1">Jadi, koordinat bayangannya adalah $P'(9, -5)$.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subtab Content 2: Refleksi -->
+            <div id="materi-refleksi" class="materi-content hidden space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 text-emerald-600">
+                        <i class="fa-solid fa-vector-square text-2xl"></i>
+                        <h3 class="text-xl font-extrabold text-slate-900">2. Refleksi (Pencerminan)</h3>
+                    </div>
+                    <p class="text-slate-700 text-base leading-relaxed font-medium">
+                        <strong>Refleksi</strong> adalah memindahkan titik dengan sifat bayangan cermin datar. Jarak titik asal ke cermin sama persis dengan jarak bayangan ke cermin.
+                    </p>
+
+                    <!-- Table of Reflection Formulas -->
+                    <div class="overflow-x-auto border border-slate-200 rounded-2xl shadow-sm">
+                        <table class="w-full text-sm text-left border-collapse bg-white">
+                            <thead class="bg-slate-100 text-slate-900 font-extrabold border-b border-slate-200">
+                                <tr>
+                                    <th class="p-3.5 border-r border-slate-200">Jenis Cermin / Acuan</th>
+                                    <th class="p-3.5 border-r border-slate-200">Titik Awal</th>
+                                    <th class="p-3.5 border-r border-slate-200">Koordinat Bayangan</th>
+                                    <th class="p-3.5">Matriks Refleksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 text-slate-800 font-medium">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3.5 font-bold border-r border-slate-200">Sumbu $X$ ($y=0$)</td>
+                                    <td class="p-3.5 border-r border-slate-200">$A(x, y)$</td>
+                                    <td class="p-3.5 font-bold text-emerald-700 border-r border-slate-200">$A'(x, -y)$</td>
+                                    <td class="p-3.5 font-mono">$\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3.5 font-bold border-r border-slate-200">Sumbu $Y$ ($x=0$)</td>
+                                    <td class="p-3.5 border-r border-slate-200">$A(x, y)$</td>
+                                    <td class="p-3.5 font-bold text-emerald-700 border-r border-slate-200">$A'(-x, y)$</td>
+                                    <td class="p-3.5 font-mono">$\begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3.5 font-bold border-r border-slate-200">Garis $y = x$</td>
+                                    <td class="p-3.5 border-r border-slate-200">$A(x, y)$</td>
+                                    <td class="p-3.5 font-bold text-emerald-700 border-r border-slate-200">$A'(y, x)$</td>
+                                    <td class="p-3.5 font-mono">$\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3.5 font-bold border-r border-slate-200">Garis $y = -x$</td>
+                                    <td class="p-3.5 border-r border-slate-200">$A(x, y)$</td>
+                                    <td class="p-3.5 font-bold text-emerald-700 border-r border-slate-200">$A'(-y, -x)$</td>
+                                    <td class="p-3.5 font-mono">$\begin{pmatrix} 0 & -1 \\ -1 & 0 \end{pmatrix}$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3.5 font-bold border-r border-slate-200">Titik Pusat $O(0,0)$</td>
+                                    <td class="p-3.5 border-r border-slate-200">$A(x, y)$</td>
+                                    <td class="p-3.5 font-bold text-emerald-700 border-r border-slate-200">$A'(-x, -y)$</td>
+                                    <td class="p-3.5 font-mono">$\begin{pmatrix} -1 & 0 \\ 0 & -1 \end{pmatrix}$</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subtab Content 3: Rotasi -->
+            <div id="materi-rotasi" class="materi-content hidden space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 text-amber-600">
+                        <i class="fa-solid fa-rotate text-2xl"></i>
+                        <h3 class="text-xl font-extrabold text-slate-900">3. Rotasi (Perputaran)</h3>
+                    </div>
+                    <p class="text-slate-700 text-base leading-relaxed font-medium">
+                        <strong>Rotasi</strong> adalah memutar titik/bangun terhadap suatu titik pusat sejauh sudut $\theta$. Sudut bernilai <strong>positif ($+$)</strong> jika berlawanan arah jarum jam, dan <strong>negatif ($-$)</strong> jika searah jarum jam.
+                    </p>
+
+                    <!-- Formula Box Rotasi -->
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-2xl space-y-4">
+                        <h4 class="font-bold text-amber-900 text-base">Rotasi Pusat $O(0,0)$ Sebesar Sudut $\theta$</h4>
+                        <div class="text-center py-2 text-lg font-bold text-amber-950">
+                            $$ \begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} $$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subtab Content 4: Dilatasi -->
+            <div id="materi-dilatasi" class="materi-content hidden space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 text-rose-600">
+                        <i class="fa-solid fa-expand text-2xl"></i>
+                        <h3 class="text-xl font-extrabold text-slate-900">4. Dilatasi (Perkalian Skala)</h3>
+                    </div>
+                    <p class="text-slate-700 text-base leading-relaxed font-medium">
+                        <strong>Dilatasi</strong> adalah mengubah ukuran (memperbesar atau memperkecil) suatu objek geometri tanpa mengubah bentuknya, ditentukan oleh titik pusat dan faktor skala $k$.
+                    </p>
+
+                    <!-- Formula Box Dilatasi -->
+                    <div class="bg-rose-50 border-l-4 border-rose-500 p-6 rounded-r-2xl space-y-4">
+                        <h4 class="font-bold text-rose-900 text-base">Dilatasi Pusat $O(0,0)$ Faktor Skala $k$</h4>
+                        <div class="text-center py-2 text-lg font-bold text-rose-950">
+                            $$ \begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} k & 0 \\ 0 & k \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} k \cdot x \\ k \cdot y \end{pmatrix} $$
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: LAB VIRTUAL ==================== -->
+        <section id="section-lab" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 flex items-center space-x-2">
+                        <i class="fa-solid fa-flask text-brand-600"></i>
+                        <span>Laboratorium Virtual Kartesius</span>
+                    </h2>
+                    <p class="text-sm font-medium text-slate-500">Ubah nilai parameter di bawah ini untuk melihat pergerakan titik bayangan secara langsung!</p>
+                </div>
+                <button onclick="resetLab()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center space-x-2 border border-slate-300">
+                    <i class="fa-solid fa-rotate-left"></i> <span>Reset Parameter Lab</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Controls Panel -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                    <h3 class="font-extrabold text-slate-900 border-b pb-3 text-base flex items-center space-x-2">
+                        <i class="fa-solid fa-sliders text-brand-600"></i>
+                        <span>Pengaturan Transformasi</span>
+                    </h3>
+
+                    <!-- Shape Picker -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Pilih Objek Geometri</label>
+                        <select id="lab-shape" onchange="updateLab()" class="w-full bg-slate-50 border border-slate-300 text-slate-900 font-semibold text-sm rounded-xl p-3 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            <option value="triangle">Segitiga (3 Titik)</option>
+                            <option value="point">Titik Tunggal A(x,y)</option>
+                            <option value="rectangle">Persegi Panjang (4 Titik)</option>
+                        </select>
+                    </div>
+
+                    <!-- Transformation Type Picker -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Jenis Transformasi</label>
+                        <select id="lab-type" onchange="toggleLabTypeControls(); updateLab()" class="w-full bg-slate-50 border border-slate-300 text-slate-900 font-semibold text-sm rounded-xl p-3 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            <option value="translasi">1. Translasi (Pergeseran)</option>
+                            <option value="refleksi">2. Refleksi (Pencerminan)</option>
+                            <option value="rotasi">3. Rotasi (Perputaran)</option>
+                            <option value="dilatasi">4. Dilatasi (Perkalian Skala)</option>
+                        </select>
+                    </div>
+
+                    <!-- Dynamic Controls -->
+                    <!-- Translasi Sliders -->
+                    <div id="ctrl-translasi" class="space-y-4 pt-1">
+                        <div>
+                            <div class="flex justify-between text-xs font-bold text-slate-800 mb-1">
+                                <span>Pergeseran Horizontal (a):</span>
+                                <span id="val-trans-a" class="text-brand-600 font-black">2</span>
+                            </div>
+                            <input type="range" id="slider-trans-a" min="-6" max="6" value="2" oninput="updateLab()" class="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-bold text-slate-800 mb-1">
+                                <span>Pergeseran Vertikal (b):</span>
+                                <span id="val-trans-b" class="text-brand-600 font-black">3</span>
+                            </div>
+                            <input type="range" id="slider-trans-b" min="-6" max="6" value="3" oninput="updateLab()" class="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600">
+                        </div>
+                    </div>
+
+                    <!-- Refleksi Select -->
+                    <div id="ctrl-refleksi" class="hidden space-y-3 pt-1">
+                        <label class="block text-xs font-bold text-slate-800 mb-1">Cermin / Sumbu Acuan:</label>
+                        <select id="select-refleksi-axis" onchange="updateLab()" class="w-full bg-slate-50 border border-slate-300 text-slate-900 font-semibold text-sm rounded-xl p-3">
+                            <option value="sumbuX">Sumbu X (y = 0)</option>
+                            <option value="sumbuY">Sumbu Y (x = 0)</option>
+                            <option value="y=x">Garis y = x</option>
+                            <option value="y=-x">Garis y = -x</option>
+                            <option value="origin">Titik Pusat O(0,0)</option>
+                        </select>
+                    </div>
+
+                    <!-- Rotasi Slider -->
+                    <div id="ctrl-rotasi" class="hidden space-y-3 pt-1">
+                        <div>
+                            <div class="flex justify-between text-xs font-bold text-slate-800 mb-1">
+                                <span>Sudut Rotasi (θ):</span>
+                                <span id="val-rotasi-angle" class="text-amber-600 font-black">90°</span>
+                            </div>
+                            <input type="range" id="slider-rotasi-angle" min="0" max="360" step="15" value="90" oninput="updateLab()" class="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                        </div>
+                    </div>
+
+                    <!-- Dilatasi Slider -->
+                    <div id="ctrl-dilatasi" class="hidden space-y-3 pt-1">
+                        <div>
+                            <div class="flex justify-between text-xs font-bold text-slate-800 mb-1">
+                                <span>Faktor Skala (k):</span>
+                                <span id="val-dilatasi-k" class="text-rose-600 font-black">2</span>
+                            </div>
+                            <input type="range" id="slider-dilatasi-k" min="-3" max="3" step="0.5" value="2" oninput="updateLab()" class="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                        </div>
+                    </div>
+
+                    <!-- Coordinates Display Output -->
+                    <div class="bg-slate-100 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <h4 class="text-xs font-black text-slate-500 uppercase tracking-wider">Hasil Koordinat Utama</h4>
+                        <div class="text-sm space-y-1 font-mono">
+                            <div class="flex justify-between">
+                                <span class="text-blue-700 font-bold">● Objek Asli (A):</span>
+                                <span id="coords-original" class="text-slate-900 font-extrabold">(1, 1)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-rose-600 font-bold">▲ Bayangan (A'):</span>
+                                <span id="coords-transformed" class="text-slate-900 font-extrabold">(3, 4)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canvas Display Screen -->
+                <div class="lg:col-span-2 bg-slate-900 rounded-2xl border border-slate-700 p-4 flex flex-col justify-between items-center relative min-h-[420px] shadow-lg">
+                    <div class="w-full flex justify-between items-center mb-2 px-2 text-xs font-bold text-slate-300">
+                        <span class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-full bg-blue-500 inline-block shadow"></span> <span>Objek Asli (Biru)</span></span>
+                        <span class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-full bg-rose-500 inline-block shadow"></span> <span>Bayangan Transformasi (Merah)</span></span>
+                    </div>
+
+                    <canvas id="labCanvas" class="w-full h-[380px] bg-slate-950 rounded-xl cursor-crosshair border border-slate-800"></canvas>
+
+                    <p class="mt-3 text-xs text-slate-400 text-center font-medium">
+                        <i class="fa-solid fa-circle-info text-brand-500"></i> Bidang Kartesius otomatis memperbarui grafik secara live sesuai dengan parameter yang disetel.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: LKPD INTERAKTIF ==================== -->
+        <section id="section-lkpd" class="hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <!-- Header Title -->
+                <div class="border-b border-slate-200 pb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <span class="bg-brand-100 text-brand-800 text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider border border-brand-200">Lembar Kerja Peserta Didik</span>
+                        <h2 class="text-2xl font-black text-slate-900 mt-2">LKPD Interaktif: Eksplorasi Transformasi</h2>
+                        <p class="text-sm font-medium text-slate-500">Isi identitas diri Anda dan selesaikan aktivitas eksplorasi di bawah ini.</p>
+                    </div>
+                    <button onclick="checkLKPD()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-6 py-3 rounded-xl shadow-md transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-check text-lg"></i> <span>Periksa Jawaban LKPD</span>
+                    </button>
+                </div>
+
+                <!-- Student Identity Form -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-800 mb-1">Nama Lengkap Siswa:</label>
+                        <input type="text" id="lkpd-nama" placeholder="Ketik nama siswa..." class="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-800 mb-1">Kelas / Kelompok Belajar:</label>
+                        <input type="text" id="lkpd-kelas" placeholder="Contoh: XI MIPA 2" class="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-800 mb-1">Tanggal Pengerjaan:</label>
+                        <input type="date" id="lkpd-tanggal" class="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- LKPD Activity 1 -->
+                <div class="space-y-4 pt-2">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+                        <span class="w-7 h-7 bg-brand-600 text-white rounded-lg flex items-center justify-center text-sm font-black">1</span>
+                        <span>Aktivitas 1: Pergeseran Titik (Translasi)</span>
+                    </h3>
+                    <div class="p-5 bg-indigo-50/70 rounded-2xl border border-indigo-100 text-sm text-slate-800 space-y-4 font-medium">
+                        <p><strong>Soal Kasus:</strong> Sebuah drone berada pada posisi awal $A(3, 4)$. Drone bergeser ke kanan sejauh 4 unit dan ke bawah sejauh 6 unit.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-800 mb-1">Komponen Vektor Translasi T = (a, b):</label>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold">T = (</span>
+                                    <input type="number" id="lkpd-q1-a" placeholder="a" class="w-16 bg-white border border-slate-300 rounded-lg p-2 text-center text-sm font-bold text-slate-900">
+                                    <span class="font-bold">,</span>
+                                    <input type="number" id="lkpd-q1-b" placeholder="b" class="w-16 bg-white border border-slate-300 rounded-lg p-2 text-center text-sm font-bold text-slate-900">
+                                    <span class="font-bold">)</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-800 mb-1">Koordinat Bayangan Akhir A'(x', y'):</label>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold">A' = (</span>
+                                    <input type="number" id="lkpd-q1-x" placeholder="x'" class="w-16 bg-white border border-slate-300 rounded-lg p-2 text-center text-sm font-bold text-slate-900">
+                                    <span class="font-bold">,</span>
+                                    <input type="number" id="lkpd-q1-y" placeholder="y'" class="w-16 bg-white border border-slate-300 rounded-lg p-2 text-center text-sm font-bold text-slate-900">
+                                    <span class="font-bold">)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="feedback-lkpd-1" class="hidden text-xs font-bold p-3 rounded-xl"></div>
+                    </div>
+                </div>
+
+                <!-- LKPD Activity 2 -->
+                <div class="space-y-4 pt-4">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+                        <span class="w-7 h-7 bg-emerald-600 text-white rounded-lg flex items-center justify-center text-sm font-black">2</span>
+                        <span>Aktivitas 2: Pencerminan & Rotasi Komposisi</span>
+                    </h3>
+                    <div class="p-5 bg-emerald-50/70 rounded-2xl border border-emerald-100 text-sm text-slate-800 space-y-4 font-medium">
+                        <p><strong>Soal Kasus:</strong> Titik $B(-2, 5)$ dicerminkan terhadap sumbu $X$, kemudian hasilnya diputar $90^\circ$ berlawanan arah jarum jam ($+90^\circ$) dengan pusat $O(0,0)$.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-800 mb-1">Bayangan setelah Refleksi Sumbu X (B₁):</label>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold">B₁ = (</span>
+                                    <input type="number" id="lkpd-q2-x1" placeholder="x1" class="w-16 bg-white border border-slate-300 rounded-lg p-2 text-center text-sm font-bold text-slate-900">
+                                    <span class="font-bold">,</span>
+                                    <input type="number" id="lkpd-q2-y1" placeholder="y1" class="w-16 bg-white border border-slate-300 rounded-lg p-2 text-center text-sm font-bold text-slate-900">
+                                    <span class="font-bold">)</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-800 mb-1">Bayangan Akhir setelah Rotasi +90° (B₂):</label>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold">B₂ = (</span>
+                                    <input type="number" id="lkpd-q2-x2" placeholder="x2" class="w-16 bg-white border border-slate-300 rounded-lg p-2 text-center text-sm font-bold text-slate-900">
+                                    <span class="font-bold">,</span>
+                                    <input type="number" id="lkpd-q2-y2" placeholder="y2" class="w-16 bg-white border border-slate-300 rounded-lg p-2 text-center text-sm font-bold text-slate-900">
+                                    <span class="font-bold">)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="feedback-lkpd-2" class="hidden text-xs font-bold p-3 rounded-xl"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 5: KUIS EVALUASI ==================== -->
+        <section id="section-quiz" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 flex items-center space-x-2">
+                        <i class="fa-solid fa-trophy text-amber-500"></i>
+                        <span>Kuis Evaluasi Pemahaman</span>
+                    </h2>
+                    <p class="text-sm font-medium text-slate-500">Jawab 5 soal di bawah ini untuk menguji tingkat penguasaan materi Anda.</p>
+                </div>
+                <div id="quiz-score-badge" class="bg-slate-100 text-slate-900 px-5 py-2.5 rounded-xl text-sm font-black border border-slate-300">
+                    Skor: <span id="current-score-text" class="text-brand-600">-</span> / 100
+                </div>
+            </div>
+
+            <!-- Quiz Questions Form -->
+            <form id="quiz-form" class="space-y-6">
+
+                <!-- Question 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="bg-brand-100 text-brand-800 text-xs font-bold px-3 py-1 rounded-full">Soal 1</span>
+                        <span class="text-xs text-slate-500 font-bold">20 Poin</span>
+                    </div>
+                    <p class="text-base font-bold text-slate-900">
+                        Bayangan titik $A(-2, 5)$ oleh translasi $T = \begin{pmatrix} 3 \\ -4 \end{pmatrix}$ adalah...
+                    </p>
+                    <div class="space-y-2.5 text-sm font-medium text-slate-800">
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q1" value="A" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">A. $A'(1, 1)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q1" value="B" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">B. $A'(1, 9)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q1" value="C" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">C. $A'(-5, 1)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q1" value="D" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">D. $A'(5, -9)$</span>
+                        </label>
+                    </div>
+                    <div id="explain-q1" class="hidden text-xs p-3.5 rounded-xl border"></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">Soal 2</span>
+                        <span class="text-xs text-slate-500 font-bold">20 Poin</span>
+                    </div>
+                    <p class="text-base font-bold text-slate-900">
+                        Titik $B(4, -7)$ dicerminkan terhadap garis $y = x$. Koordinat bayangan titik $B$ adalah...
+                    </p>
+                    <div class="space-y-2.5 text-sm font-medium text-slate-800">
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q2" value="A" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">A. $B'(7, -4)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q2" value="B" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">B. $B'(-7, 4)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q2" value="C" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">C. $B'(-4, 7)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q2" value="D" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">D. $B'(4, 7)$</span>
+                        </label>
+                    </div>
+                    <div id="explain-q2" class="hidden text-xs p-3.5 rounded-xl border"></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">Soal 3</span>
+                        <span class="text-xs text-slate-500 font-bold">20 Poin</span>
+                    </div>
+                    <p class="text-base font-bold text-slate-900">
+                        Bayangan titik $C(2, 6)$ setelah diputar $90^\circ$ berlawanan arah jarum jam dengan pusat $O(0,0)$ adalah...
+                    </p>
+                    <div class="space-y-2.5 text-sm font-medium text-slate-800">
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q3" value="A" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">A. $C'(-6, 2)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q3" value="B" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">B. $C'(6, -2)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q3" value="C" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">C. $C'(-2, -6)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q3" value="D" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">D. $C'(2, -6)$</span>
+                        </label>
+                    </div>
+                    <div id="explain-q3" class="hidden text-xs p-3.5 rounded-xl border"></div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1 rounded-full">Soal 4</span>
+                        <span class="text-xs text-slate-500 font-bold">20 Poin</span>
+                    </div>
+                    <p class="text-base font-bold text-slate-900">
+                        Hasil dilatasi titik $D(-3, 4)$ dengan pusat $O(0,0)$ dan faktor skala $k = -2$ adalah...
+                    </p>
+                    <div class="space-y-2.5 text-sm font-medium text-slate-800">
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q4" value="A" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">A. $D'(6, -8)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q4" value="B" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">B. $D'(-6, 8)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q4" value="C" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">C. $D'(6, 8)$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q4" value="D" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">D. $D'(-5, 2)$</span>
+                        </label>
+                    </div>
+                    <div id="explain-q4" class="hidden text-xs p-3.5 rounded-xl border"></div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full">Soal 5</span>
+                        <span class="text-xs text-slate-500 font-bold">20 Poin</span>
+                    </div>
+                    <p class="text-base font-bold text-slate-900">
+                        Matriks transformasi yang bersesuaian dengan pencerminan terhadap sumbu $X$ adalah...
+                    </p>
+                    <div class="space-y-2.5 text-sm font-medium text-slate-800">
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q5" value="A" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">A. $\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q5" value="B" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">B. $\begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q5" value="C" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">C. $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$</span>
+                        </label>
+                        <label class="flex items-center p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="radio" name="q5" value="D" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="ml-3 font-semibold">D. $\begin{pmatrix} 0 & -1 \\ -1 & 0 \end{pmatrix}$</span>
+                        </label>
+                    </div>
+                    <div id="explain-q5" class="hidden text-xs p-3.5 rounded-xl border"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-end pt-4">
+                    <button type="button" onclick="submitQuiz()" class="bg-brand-600 hover:bg-brand-700 text-white font-extrabold px-8 py-3.5 rounded-2xl shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i> <span>Kirim Jawaban Evaluasi</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Quiz Results Banner -->
+            <div id="quiz-result-modal" class="hidden bg-gradient-to-r from-brand-800 to-accent-cyan text-white p-8 rounded-3xl shadow-xl text-center space-y-4">
+                <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-3xl mx-auto backdrop-blur-md">
+                    <i class="fa-solid fa-award text-amber-300"></i>
+                </div>
+                <h3 class="text-2xl font-black">Hasil Evaluasi Kuis</h3>
+                <div class="text-5xl font-black text-amber-300" id="final-score-display">0 / 100</div>
+                <p id="final-score-message" class="text-sm font-medium text-slate-100 max-w-md mx-auto leading-relaxed">
+                    Selamat telah menyelesaikan kuis!
+                </p>
+                <div class="pt-2">
+                    <button onclick="resetQuiz()" class="bg-white text-brand-900 font-extrabold px-6 py-3 rounded-xl shadow hover:bg-slate-100 transition-all text-sm">
+                        Ulangi Kuis
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-xs font-semibold text-slate-500 gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-brand-600 text-white rounded-lg flex items-center justify-center font-black">
+                    O
+                </div>
+                <div>
+                    <p class="font-extrabold text-slate-900">LBB Kelas Pintar Orion</p>
+                    <p class="text-slate-500">Materi Ajar Interaktif Matematika SMA</p>
+                </div>
+            </div>
+            <div class="text-center sm:text-right">
+                <p>© 2026 Tim Penyusun LBB Kelas Pintar Orion.</p>
+                <p class="text-slate-400">Hak Cipta Dilindungi - Transformasi Geometri</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Global State & Navigation Tab Handler
+        function renderMath() {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSec = document.getElementById('section-' + tabId);
+            if (targetSec) targetSec.classList.remove('hidden');
+
+            const targetBtn = document.getElementById('tab-' + tabId);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
+
+            renderMath();
+
+            if (tabId === 'lab') {
+                setTimeout(updateLab, 100);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function switchMateriSubtab(subId) {
+            document.querySelectorAll('.materi-content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.materi-subtab').forEach(b => b.classList.remove('active'));
+
+            document.getElementById('materi-' + subId).classList.remove('hidden');
+            document.getElementById('subtab-' + subId).classList.add('active');
+            
+            renderMath();
+        }
+
+        function toggleSolution(solId) {
+            const el = document.getElementById(solId);
+            el.classList.toggle('hidden');
+        }
+
+        // VIRTUAL LAB ENGINE
+        let canvas, ctx;
+
+        window.onload = function() {
+            canvas = document.getElementById('labCanvas');
+            if (canvas) {
+                ctx = canvas.getContext('2d');
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas);
+                updateLab();
+            }
+
+            // Render all KaTeX math formulas across the page
+            renderMath();
+        };
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth - 32;
+            canvas.height = 380;
+            updateLab();
+        }
+
+        function toggleLabTypeControls() {
+            const type = document.getElementById('lab-type').value;
+            document.getElementById('ctrl-translasi').classList.add('hidden');
+            document.getElementById('ctrl-refleksi').classList.add('hidden');
+            document.getElementById('ctrl-rotasi').classList.add('hidden');
+            document.getElementById('ctrl-dilatasi').classList.add('hidden');
+
+            document.getElementById('ctrl-' + type).classList.remove('hidden');
+        }
+
+        function updateLab() {
+            if (!canvas || !ctx) return;
+
+            const shape = document.getElementById('lab-shape').value;
+            const transType = document.getElementById('lab-type').value;
+
+            // Clear canvas background
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const scale = 24; // 1 unit = 24 pixels
+
+            // Draw Cartesian Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+
+            for (let x = centerX % scale; x < width; x += scale) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+
+            for (let y = centerY % scale; y < height; y += scale) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            // Draw X and Y Main Axes
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 2;
+
+            // X-Axis
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(width, centerY);
+            ctx.stroke();
+
+            // Y-Axis
+            ctx.beginPath();
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, height);
+            ctx.stroke();
+
+            // Initial shape points in Cartesian coordinates
+            let originalPoints = [];
+            if (shape === 'triangle') {
+                originalPoints = [{x: 1, y: 1}, {x: 4, y: 1}, {x: 2, y: 4}];
+            } else if (shape === 'point') {
+                originalPoints = [{x: 2, y: 3}];
+            } else if (shape === 'rectangle') {
+                originalPoints = [{x: 1, y: 1}, {x: 4, y: 1}, {x: 4, y: 3}, {x: 1, y: 3}];
+            }
+
+            // Calculate Transformation Points
+            let transformedPoints = [];
+
+            if (transType === 'translasi') {
+                const a = parseInt(document.getElementById('slider-trans-a').value);
+                const b = parseInt(document.getElementById('slider-trans-b').value);
+                document.getElementById('val-trans-a').innerText = a;
+                document.getElementById('val-trans-b').innerText = b;
+
+                transformedPoints = originalPoints.map(p => ({
+                    x: p.x + a,
+                    y: p.y + b
+                }));
+
+            } else if (transType === 'refleksi') {
+                const axis = document.getElementById('select-refleksi-axis').value;
+                transformedPoints = originalPoints.map(p => {
+                    if (axis === 'sumbuX') return { x: p.x, y: -p.y };
+                    if (axis === 'sumbuY') return { x: -p.x, y: p.y };
+                    if (axis === 'y=x') return { x: p.y, y: p.x };
+                    if (axis === 'y=-x') return { x: -p.y, y: -p.x };
+                    if (axis === 'origin') return { x: -p.x, y: -p.y };
+                    return p;
+                });
+
+            } else if (transType === 'rotasi') {
+                const angleDeg = parseInt(document.getElementById('slider-rotasi-angle').value);
+                document.getElementById('val-rotasi-angle').innerText = angleDeg + '°';
+                const rad = angleDeg * (Math.PI / 180);
+
+                transformedPoints = originalPoints.map(p => ({
+                    x: Math.round((p.x * Math.cos(rad) - p.y * Math.sin(rad)) * 10) / 10,
+                    y: Math.round((p.x * Math.sin(rad) + p.y * Math.cos(rad)) * 10) / 10
+                }));
+
+            } else if (transType === 'dilatasi') {
+                const k = parseFloat(document.getElementById('slider-dilatasi-k').value);
+                document.getElementById('val-dilatasi-k').innerText = k;
+
+                transformedPoints = originalPoints.map(p => ({
+                    x: p.x * k,
+                    y: p.y * k
+                }));
+            }
+
+            // Helper to convert Cartesian coordinates to Canvas Pixels
+            function toCanvasX(x) { return centerX + x * scale; }
+            function toCanvasY(y) { return centerY - y * scale; }
+
+            // Draw Original Shape (Blue)
+            ctx.fillStyle = 'rgba(59, 130, 246, 0.4)';
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 3;
+
+            if (originalPoints.length > 1) {
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(originalPoints[0].x), toCanvasY(originalPoints[0].y));
+                for (let i = 1; i < originalPoints.length; i++) {
+                    ctx.lineTo(toCanvasX(originalPoints[i].x), toCanvasY(originalPoints[i].y));
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            originalPoints.forEach((p) => {
+                ctx.fillStyle = '#2563eb';
+                ctx.beginPath();
+                ctx.arc(toCanvasX(p.x), toCanvasY(p.y), 6, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Draw Transformed Shape (Red/Rose)
+            ctx.fillStyle = 'rgba(244, 63, 94, 0.4)';
+            ctx.strokeStyle = '#f43f5e';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([6, 4]);
+
+            if (transformedPoints.length > 1) {
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(transformedPoints[0].x), toCanvasY(transformedPoints[0].y));
+                for (let i = 1; i < transformedPoints.length; i++) {
+                    ctx.lineTo(toCanvasX(transformedPoints[i].x), toCanvasY(transformedPoints[i].y));
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+
+            transformedPoints.forEach((p) => {
+                ctx.fillStyle = '#e11d48';
+                ctx.beginPath();
+                ctx.arc(toCanvasX(p.x), toCanvasY(p.y), 6, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Update text output
+            const p0 = originalPoints[0];
+            const pt0 = transformedPoints[0];
+            document.getElementById('coords-original').innerText = `(${p0.x}, ${p0.y})`;
+            document.getElementById('coords-transformed').innerText = `(${pt0.x}, ${pt0.y})`;
+        }
+
+        function resetLab() {
+            document.getElementById('lab-shape').value = 'triangle';
+            document.getElementById('lab-type').value = 'translasi';
+            document.getElementById('slider-trans-a').value = 2;
+            document.getElementById('slider-trans-b').value = 3;
+            toggleLabTypeControls();
+            updateLab();
+        }
+
+        // LKPD CHECKER LOGIC
+        function checkLKPD() {
+            // Activity 1: drone A(3,4), right +4, down -6 => T(4, -6), A'(7, -2)
+            const q1a = parseInt(document.getElementById('lkpd-q1-a').value);
+            const q1b = parseInt(document.getElementById('lkpd-q1-b').value);
+            const q1x = parseInt(document.getElementById('lkpd-q1-x').value);
+            const q1y = parseInt(document.getElementById('lkpd-q1-y').value);
+
+            const fb1 = document.getElementById('feedback-lkpd-1');
+            fb1.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-900', 'bg-rose-100', 'text-rose-900');
+
+            if (q1a === 4 && q1b === -6 && q1x === 7 && q1y === -2) {
+                fb1.classList.add('bg-emerald-100', 'text-emerald-900');
+                fb1.innerHTML = '<i class="fa-solid fa-circle-check"></i> Jawaban Aktivitas 1 SANGAT TEPAT! T = (4, -6) dan A\' = (7, -2)';
+            } else {
+                fb1.classList.add('bg-rose-100', 'text-rose-900');
+                fb1.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Jawaban Aktivitas 1 belum tepat. Petunjuk: Bergeser ke kanan = +4, ke bawah = -6. A\' = (3+4, 4-6).';
+            }
+
+            // Activity 2: B(-2, 5) reflected X => B1(-2, -5), then rotated +90 => B2(-y, x) = (5, -2)
+            const q2x1 = parseInt(document.getElementById('lkpd-q2-x1').value);
+            const q2y1 = parseInt(document.getElementById('lkpd-q2-y1').value);
+            const q2x2 = parseInt(document.getElementById('lkpd-q2-x2').value);
+            const q2y2 = parseInt(document.getElementById('lkpd-q2-y2').value);
+
+            const fb2 = document.getElementById('feedback-lkpd-2');
+            fb2.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-900', 'bg-rose-100', 'text-rose-900');
+
+            if (q2x1 === -2 && q2y1 === -5 && q2x2 === 5 && q2y2 === -2) {
+                fb2.classList.add('bg-emerald-100', 'text-emerald-900');
+                fb2.innerHTML = '<i class="fa-solid fa-circle-check"></i> Jawaban Aktivitas 2 SANGAT TEPAT! B₁ = (-2, -5) dan B₂ = (5, -2)';
+            } else {
+                fb2.classList.add('bg-rose-100', 'text-rose-900');
+                fb2.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Jawaban Aktivitas 2 belum tepat. Cermati Refleksi Sumbu X: (x, -y) dan Rotasi +90°: (-y, x).';
+            }
+        }
+
+        // QUIZ EVALUATION LOGIC
+        const quizAnswers = {
+            q1: { ans: 'A', exp: 'Translasi: A\' = (-2+3, 5+(-4)) = (1, 1).' },
+            q2: { ans: 'B', exp: 'Refleksi y = x: B\'(y, x) = B\'(-7, 4).' },
+            q3: { ans: 'A', exp: 'Rotasi +90°: C\'(-y, x) = C\'(-6, 2).' },
+            q4: { ans: 'A', exp: 'Dilatasi k=-2: D\'(-3 × -2, 4 × -2) = D\'(6, -8).' },
+            q5: { ans: 'A', exp: 'Matriks refleksi Sumbu X adalah [1 0; 0 -1].' }
+        };
+
+        function submitQuiz() {
+            let score = 0;
+            const form = document.getElementById('quiz-form');
+
+            for (let q in quizAnswers) {
+                const selected = form.elements[q].value;
+                const explainEl = document.getElementById('explain-' + q);
+                explainEl.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-300', 'bg-rose-50', 'border-rose-300');
+
+                if (selected === quizAnswers[q].ans) {
+                    score += 20;
+                    explainEl.classList.add('bg-emerald-50', 'border-emerald-300');
+                    explainEl.innerHTML = `<span class="text-emerald-800 font-bold"><i class="fa-solid fa-check"></i> Benar!</span> <span class="text-slate-800 font-medium">${quizAnswers[q].exp}</span>`;
+                } else {
+                    explainEl.classList.add('bg-rose-50', 'border-rose-300');
+                    explainEl.innerHTML = `<span class="text-rose-800 font-bold"><i class="fa-solid fa-xmark"></i> Kurang tepat.</span> Jawaban benar: <strong class="text-slate-900">${quizAnswers[q].ans}</strong>. <span class="text-slate-800 font-medium">${quizAnswers[q].exp}</span>`;
+                }
+            }
+
+            renderMath();
+
+            // Display results
+            document.getElementById('current-score-text').innerText = score;
+            document.getElementById('final-score-display').innerText = score + ' / 100';
+
+            const msgEl = document.getElementById('final-score-message');
+            if (score >= 80) {
+                msgEl.innerText = 'Sangat Luar Biasa! Anda telah menguasai materi Transformasi Geometri dengan sangat baik.';
+            } else if (score >= 60) {
+                msgEl.innerText = 'Bagus! Pemahaman Anda sudah baik, tingkatkan latihan pada materi yang belum Anda kuasai.';
+            } else {
+                msgEl.innerText = 'Tetap semangat! Pelajari kembali penjelasan materi dan ulangi kuis evaluasi ini.';
+            }
+
+            document.getElementById('quiz-result-modal').classList.remove('hidden');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-form').reset();
+            for (let q in quizAnswers) {
+                document.getElementById('explain-' + q).classList.add('hidden');
+            }
+            document.getElementById('quiz-result-modal').classList.add('hidden');
+            document.getElementById('current-score-text').innerText = '-';
+        }
+    </script>
+</body>
+</html>
